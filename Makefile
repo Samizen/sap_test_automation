@@ -1,7 +1,10 @@
-run_all: libs_install playwright_install
+run_all: update_pip libs_install playwright_install
+
+update_pip:
+	python.exe -m pip install --upgrade pip
 
 libs_install:
-	pip -r install chatgpt_change_steps_sent/requirements.txt
+	pip install -r chatgpt_change_steps_sent/requirements.txt
 
 playwright_install:
-	playwright install
+	pip install playwright
