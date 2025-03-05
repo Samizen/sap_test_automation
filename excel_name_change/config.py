@@ -1,3 +1,5 @@
-vars_to_change = {
-    "complete":"__completed__",
+VARS_TO_CHANGE= {
+    "Scenario":"__changed",
+    "Environment":"env",
+    "Enter":"_enter_" 
 }
