@@ -1,0 +1,16 @@
+,OS: Windows 11 | Browser: Chrome 133 | Resolution: 1920x1032 | Time: 25 Feb 2025 / 17:45:37  GMT+5:45
+
+"#","Step","Data","Exp Result","XPath","cssSelector"
+"1","Open website","https://s1.au.cloud.ariba.com/Buyer/Main/aw?awh=r&awssk=uClIXVrxe2VZ5bxI&realm=PREMIKATI-DEMODSAPP-1-T&dard=1#b0","","",""
+"2","Click on ""mastHeadProductImage""","","","//img[@title='CompanyLogo']","img[title='CompanyLogo']"
+"3","Click on ""Black Ballpoint Pens, Disposable""","","","//a[@id='_vk61k']","#_vk61k"
+"4","Drag ""Quantity""","","","//input[@id='_70gan']","#_70gan"
+"5","Enter ""6"" into ""Quantity""","6","","//input[@id='_70gan']","#_70gan"
+"6","Click on ""Add to Cart""","","","//span[contains(text(),'Add to Cart')]","body > div:nth-child(23) > div:nth-child(4) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(9) > form:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(3) > td:nth-child(2) > span:nth-child(1) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1) > span:nth-child(1)"
+"7","Scroll down","","","",""
+"8","Scroll up","","","",""
+"9","Scroll down","","","",""
+"10","Scroll up","","","",""
+"11","Enter ""Random Title"" into ""Title:""","Random Title","","//input[@id='_mbpnyb']","#_mbpnyb"
+"12","Click on ""Submit""","","","//button[@id='_qp3dcd']//span[contains(text(),'Submit')]","body > div:nth-child(23) > form:nth-child(2) > div:nth-child(3) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(2) > td:nth-child(1) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > div:nth-child(1) > div:nth-child(2) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(1) > table:nth-child(2) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(2) > table:nth-child(1) > tbody:nth-child(1) > tr:nth-child(1) > td:nth-child(5) > div:nth-child(1) > button:nth-child(1) > span:nth-child(1)"
+"13","Click on ""View Requisition""","","","//button[@id='_ydqmqd']","#_ydqmqd"
