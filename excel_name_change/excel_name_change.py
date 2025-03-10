@@ -8,6 +8,7 @@ class Excel_Name:
 
     def __init__(self, files_dir=""):
         self.files_dir = files_dir
+        print(self.files_dir)
         self.excel_files = os.listdir(self.files_dir)
 
     def change_name(self, file):
