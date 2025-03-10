@@ -16,10 +16,6 @@ def test_create_pr():
         time.sleep(5)
         page.get_by_role("tab", name="Home").click()
         page.get_by_role("link", name="Guided Buying Redirect Link").click()
-        # with page.expect_popup() as page1_info:
-        #     page.get_by_role("link", name="Guided Buying Redirect Link").click()
-        #     page1 = page1_info.value
-        #     page1.wait_for_load_state()
         page.goto("https://s1.au.cloud.ariba.com/gb/?realm=PREMIKATI-DEMODSAPP-1-T&locale=en_US")
         page.get_by_role("textbox", name="Find goods and services").click()
         page.get_by_role("textbox", name="Find goods and services").fill("book bins")
@@ -37,6 +33,6 @@ def test_create_pr():
         page.get_by_role("textbox", name="Requisition title Required").press("ControlOrMeta+Shift+ArrowLeft")
         page.get_by_role("textbox", name="Requisition title Required").press("ControlOrMeta+Shift+ArrowLeft")
         page.get_by_role("textbox", name="Requisition title Required").press("ControlOrMeta+Shift+ArrowLeft")
-        page.get_by_role("textbox", name="Requisition title Required").fill("Test PR 05 GB")
+        page.get_by_role("textbox", name="Requisition title Required").fill("Test PR 06 GB")
         page.get_by_role("button", name="Submit").click()
         page.get_by_role("button", name="Done").click()
