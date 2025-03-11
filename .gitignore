@@ -2,3 +2,5 @@
 test_playwright/__pycache__/
 test_playwright/.pytest_cache
 .ipynb_checkpoints/
+__pycache__/
+.pytest_cache/
