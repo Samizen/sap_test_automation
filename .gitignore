@@ -1,2 +1,4 @@
-.venv
-.env
+.venv/
+test_playwright/__pycache__/
+test_playwright/.pytest_cache
+.ipynb_checkpoints/
