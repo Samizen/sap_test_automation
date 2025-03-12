@@ -1,63 +1,80 @@
-from playwright.sync_api import Playwright, sync_playwright, expect
 import time
+from playwright.sync_api import sync_playwright
+from test_playwright.test_login import login_ariba
+
+# Parameters for test case
+USERNAME = "sbanjade_prem_admin"
+PASSWORD = "Iam@maitri0987"
+SUPPLIER_REQUEST_URL = "https://s1.au.cloud.ariba.com/Sourcing/Main/ad/createSupplier/ariba.sourcing.dashboard.SMMainActionsController"
+SUPPLIER_FULL_LEGAL_NAME = "Test for auto 2"
+STREET = "Street"
+HOUSE_NUMBER = "1"
+STREET_2 = "4"
+STREET_3 = "ggg"
+DISTRICT = "ff"
+POSTAL_CODE = "sss"
+CONTACT_FIRST_NAME = "Subash"
+CONTACT_LAST_NAME = "Subash"
+CONTACT_EMAIL = "subash@gmail.com"
+CONTACT_PHONE = "98713"
+CONTACT_LANGUAGE = "Arabic"
+
 def test_supplier_request():
     with sync_playwright() as playwright:
-# run(playwright: Playwright) -> None:
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
         page = context.new_page()
-        page.goto("https://s1.au.cloud.ariba.com/Buyer/Main/ad/loginPage/SSOActions?awsr=true&realm=PREMIKATI-DEMODSAPP-T&passwordadapter=PasswordAdapter1&awsso_hpk=true&awsso_ap=Buyer&awsso_cc=cGFzc3dvcmRhZGFwdGVyOlVHRnpjM2R2Y21SQlpHRndkR1Z5TVE9PTtyZWFsbTpVRkpGVFVsTFFWUkpMVVJGVFU5RVUwRlFVQzFVO2F3cjpNdz09O2F3c3NvX3J1OmFIUjBjSE02THk5ek1TNWhkUzVqYkc5MVpDNWhjbWxpWVM1amIyMHZRblY1WlhJdlRXRnBiaTgvWVhkeVBUTW1jbVZoYkcwOVVGSkZUVWxMUVZSSkxVUkZUVTlFVTBGUVVDMVVKbkJoYzNOM2IzSmtZV1JoY0hSbGNqMVFZWE56ZDI5eVpFRmtZWEIwWlhJeDthd3Nzb19sdTphSFIwY0hNNkx5OXpNUzVoZFM1amJHOTFaQzVoY21saVlTNWpiMjB2UW5WNVpYSXZUV0ZwYmk5aFpDOWpiR2xsYm5STWIyZHZkWFF2VTFOUFFXTjBhVzl1Y3c9PTthd3Nzb19hcDpRblY1WlhJPTthd3Nzb19hcmlkOk1UYzBNVE0wTURBek9EY3dNdz09O2F3c3NvX2t1OmFIUjBjSE02THk5ek1TNWhkUzVqYkc5MVpDNWhjbWxpWVM1amIyMHZRblY1WlhJdlRXRnBiaTloWkM5amJHbGxiblJMWldWd1FXeHBkbVV2VTFOUFFXTjBhVzl1Y3c9PTthd3Nzb19mbDpNUT09%3Aj6EmOzJMNifqbqPdJOiWt%2FXYlj0%3D")
-        page.get_by_role("textbox", name="User Name").click()
-        page.get_by_role("textbox", name="User Name").fill("sbanjade_prem_admin")
-        page.get_by_role("textbox", name="Password").fill("Iam@maitri0987")
-        page.get_by_role("button", name="Sign In").click()
-        
-        time.sleep(3)
-        page.locator('a[role="button"][aria-haspopup="menu"][id="_oj2tk"]').click()
-        page.locator("//a[@id='_oj2tk']").click()
-        # page.locator('a[title="Supplier Request"][aria-hidden="false"]').click()
-        # page.get_by_role("button", name="Create").click() #and page.wait_for_selector("your-desired-selector")
-        page.get_by_role("menuitem", name="Supplier Request").click()
-        time.sleep(10)
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.locator("textarea[type=\"textarea\"]").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.locator("textarea[type=\"textarea\"]").fill("Test")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Supplier Full Legal Name").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Supplier Full Legal Name").fill("Test for auto 2")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street", exact=True).click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street", exact=True).fill("Street")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street", exact=True).press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="House Number").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="House Number").fill("1")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street 2").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street 2").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street 2").fill("4")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street 3").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Street 3").fill("ggg")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="District").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="District").fill("ff")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Postal Code").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Postal Code").fill("sss")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact First Name").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact First Name").fill("Subash")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact First Name").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Last Name").fill("Subash")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Last Name").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Email").fill("subash@")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Email").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Email").fill("subash@gmail.com")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Email").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Phone").fill("98713")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("textbox", name="Contact Location and").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_text("Arabic").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.locator("body").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("button", name="toggle sectionEngagement").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.locator("smq-label-renderer").filter(has_text="4 Engagement Details (How do").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("combobox", name="Will this Supplier be on-site?").press("Tab")
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("button", name="Submit").click()
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("button", name="Ignore and submit request").click()
-        time.sleep(2)
-        page.locator("iframe[name=\"SMFrame\"]").content_frame.get_by_role("button", name="Done").click()
 
-        # ---------------------
+        # Login
+        login_ariba(page, USERNAME, PASSWORD)
+        time.sleep(3)
+
+        # Navigate to Supplier Request
+        page.locator('//*[@id="_e80f4b"]').click()
+        time.sleep(2)
+        page.locator('a[role="menuitem"][title="Supplier Request"]').click()
+        time.sleep(10)
+
+        # Switch to iframe and fill out the form
+        iframe = page.locator("iframe[name=\"SMFrame\"]").content_frame
+        iframe.locator("textarea[type=\"textarea\"]").click()
+        iframe.locator("textarea[type=\"textarea\"]").fill("Test")
+        iframe.get_by_role("textbox", name="Supplier Full Legal Name").click()
+        iframe.get_by_role("textbox", name="Supplier Full Legal Name").fill(SUPPLIER_FULL_LEGAL_NAME)
+        iframe.get_by_role("textbox", name="Street", exact=True).click()
+        iframe.get_by_role("textbox", name="Street", exact=True).fill(STREET)
+        iframe.get_by_role("textbox", name="Street", exact=True).press("Tab")
+        iframe.get_by_role("textbox", name="House Number").click()
+        iframe.get_by_role("textbox", name="House Number").fill(HOUSE_NUMBER)
+        iframe.get_by_role("textbox", name="Street 2").click()
+        iframe.get_by_role("textbox", name="Street 2").fill(STREET_2)
+        iframe.get_by_role("textbox", name="Street 3").click()
+        iframe.get_by_role("textbox", name="Street 3").fill(STREET_3)
+        iframe.get_by_role("textbox", name="District").click()
+        iframe.get_by_role("textbox", name="District").fill(DISTRICT)
+        iframe.get_by_role("textbox", name="Postal Code").click()
+        iframe.get_by_role("textbox", name="Postal Code").fill(POSTAL_CODE)
+        iframe.get_by_role("textbox", name="Contact First Name").click()
+        iframe.get_by_role("textbox", name="Contact First Name").fill(CONTACT_FIRST_NAME)
+        iframe.get_by_role("textbox", name="Contact First Name").press("Tab")
+        iframe.get_by_role("textbox", name="Contact Last Name").fill(CONTACT_LAST_NAME)
+        iframe.get_by_role("textbox", name="Contact Last Name").press("Tab")
+        iframe.get_by_role("textbox", name="Contact Email").fill(CONTACT_EMAIL)
+        iframe.get_by_role("textbox", name="Contact Email").click()
+        iframe.get_by_role("textbox", name="Contact Email").fill(CONTACT_EMAIL)
+        iframe.get_by_role("textbox", name="Contact Email").press("Tab")
+        iframe.get_by_role("textbox", name="Contact Phone").fill(CONTACT_PHONE)
+        iframe.get_by_role("textbox", name="Contact Location and").click()
+        iframe.get_by_text(CONTACT_LANGUAGE).click()
+        iframe.locator("body").press("Tab")
+        iframe.get_by_role("button", name="toggle sectionEngagement").press("Tab")
+        iframe.locator("smq-label-renderer").filter(has_text="4 Engagement Details (How do").press("Tab")
+        iframe.get_by_role("combobox", name="Will this Supplier be on-site?").press("Tab")
+        iframe.get_by_role("button", name="Submit").click()
+        iframe.get_by_role("button", name="Ignore and submit request").click()
+        time.sleep(2)
+        iframe.get_by_role("button", name="Done").click()
+
+        # Cleanup
         context.close()
         browser.close()
