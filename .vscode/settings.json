@@ -1,0 +1,5 @@
+{
+  "python.testing.pytestArgs": ["test_playwright"],
+  "python.testing.unittestEnabled": false,
+  "python.testing.pytestEnabled": true
+}

@@ -5,7 +5,7 @@ from test_playwright.test_login import login_ariba
 # Parameters for test case
 USERNAME = "spaudel_prem_admin"
 PASSWORD = "Iam@Panda123"
-PR_TITLE = "Test PR - E2E2"
+PR_TITLE = "Test PR - E2E6"
 # PR_LINK_NAME = "Test PR - E2E2"
 COMMENT = "Test Comment"
 
