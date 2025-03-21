@@ -7,11 +7,6 @@ PASSWORD = "Iam@Panda123"
 user = "Subash Banjade"
 
 def act_as(page, act_as_user):
-    # browser = playwright.chromium.launch(headless=False)
-    # context = browser.new_context()
-    # page = context.new_page()
-
-    # login_ariba(page, USERNAME, PASSWORD)
     page.locator('img[alt="Company Logo"][title="Company Logo"]').click()
     time.sleep(5)
     page.get_by_role("button", name="Manage").click()

@@ -7,8 +7,8 @@ USERNAME = "spaudel_prem_admin"
 PASSWORD = "Iam@Panda123"
 SEARCH_ITEM = "book bins"
 QUANTITY = "3"
-PR_TITLE = "Test PR - E2E5"
-DELIVERY_DATE = "22" 
+PR_TITLE = "Test PR - E2E6"
+DELIVERY_DATE = "25" 
 
 def test_create_pr():
     with sync_playwright() as playwright:
