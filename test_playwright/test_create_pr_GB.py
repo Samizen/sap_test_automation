@@ -1,10 +1,11 @@
 import time
 from playwright.sync_api import sync_playwright
 from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
 # Parameters for test case
-USERNAME = "spaudel_prem_admin"
-PASSWORD = "Iam@Panda123"
+USERNAME = User_details.user
+PASSWORD = User_details.password
 SEARCH_ITEM = "book bins"
 QUANTITY = "10"
 REQUISITION_TITLE = "Test PR 06 GB"

@@ -1,10 +1,11 @@
 from playwright.sync_api import sync_playwright
 import time
 from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
 # Parameters for test case
-USERNAME = "spaudel_prem_admin"
-PASSWORD = "Iam@Panda123"
+USERNAME = User_details.user
+PASSWORD = User_details.password
 PR_TITLE = "Test PR - E2E6"
 # PR_LINK_NAME = "Test PR - E2E2"
 COMMENT = "Test Comment"

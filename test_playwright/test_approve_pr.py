@@ -2,9 +2,10 @@ import time
 from playwright.sync_api import Playwright, sync_playwright, expect
 from test_playwright.test_act_as import act_as
 from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
-USERNAME = "spaudel_prem_admin"
-PASSWORD = "Iam@Panda123"
+USERNAME = User_details.user
+PASSWORD = User_details.password
 PR_TITLE = "Test PR - E2E6"
 
 def test_approve_pr():

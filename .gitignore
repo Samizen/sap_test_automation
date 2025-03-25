@@ -4,3 +4,5 @@ test_playwright/.pytest_cache
 .ipynb_checkpoints/
 __pycache__/
 .pytest_cache/
+.vscode/
+

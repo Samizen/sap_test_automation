@@ -1,10 +1,11 @@
 import time
-from playwright.sync_api import Playwright, sync_playwright
-from test_playwright.test_login import login_ariba
+# from playwright.sync_api import Playwright, sync_playwright
+# from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
-USERNAME = "spaudel_prem_admin"
-PASSWORD = "Iam@Panda123"
-user = "Subash Banjade"
+USERNAME = User_details.user
+PASSWORD = User_details.password
+# user = "Subash Banjade"
 
 def act_as(page, act_as_user):
     page.locator('img[alt="Company Logo"][title="Company Logo"]').click()

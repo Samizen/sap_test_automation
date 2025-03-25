@@ -1,13 +1,14 @@
 import time
 from playwright.sync_api import sync_playwright
 from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
 # Parameters for test case
-USERNAME = "spandey_prem_admin"
-PASSWORD = "@Blessedbe678@"
+USERNAME = User_details.user
+PASSWORD = User_details.password
 PR_ID = "PR351"  # Enter the PR ID to copy
 SHIP_TO_NAME = "Ariba - Pittsburgh"
-NEED_BY_DATE = "03/20/2025"  # Set this dynamically if needed
+NEED_BY_DATE = "03/27/2025"  # Set this dynamically if needed
 
 def test_copy_pr():
     with sync_playwright() as playwright:

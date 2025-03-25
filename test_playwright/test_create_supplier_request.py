@@ -1,11 +1,12 @@
 import time
 from playwright.sync_api import sync_playwright
 from test_playwright.test_login import login_ariba
+from test_playwright.config import User_details
 
 # Parameters for test case
-USERNAME = "sbanjade_prem_admin"
-PASSWORD = "Iam@maitri0987"
-SUPPLIER_REQUEST_URL = "https://s1.au.cloud.ariba.com/Sourcing/Main/ad/createSupplier/ariba.sourcing.dashboard.SMMainActionsController"
+USERNAME = User_details.user
+PASSWORD = User_details.password
+SUPPLIER_REQUEST_URL = User_details.bni_url
 SUPPLIER_FULL_LEGAL_NAME = "Test for auto 2"
 STREET = "Street"
 HOUSE_NUMBER = "1"
