@@ -17,7 +17,7 @@ USERNAME = User_details.user
 PASSWORD = User_details.password
 SEARCH_ITEM = "Book Bins - Set of 16"
 QUANTITY = "5"
-PR_TITLE = "AT-12"
+PR_TITLE = "AT-14"
 GENERATE_SCRIPT = False
 
 # Calculate date 7 days from now

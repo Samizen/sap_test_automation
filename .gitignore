@@ -10,3 +10,4 @@ test_playwright/.pytest_cache/
 test_playwright/.env
 test_playwright/config.py
 Untitled.ipynb
+.vscode/settings.json
