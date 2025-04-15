@@ -8,7 +8,13 @@ PASSWORD = User_details.password
 # user = "Subash Banjade"
 
 def act_as(page, act_as_user):
-    page.locator('img[alt="Company Logo"][title="Company Logo"]').click()
+    print(f"Acting as {act_as_user}")
+    time.sleep(5)
+    # page.locator('img[alt="Company Logo"][title="Company Logo"]').click()
+    stop_buttons = page.locator("text=Stop")
+    if stop_buttons.count() > 0 and stop_buttons.first.is_visible():
+        with page.expect_navigation():
+            stop_buttons.first.click()
     time.sleep(5)
     page.get_by_role("button", name="Manage").click()
     page.get_by_role("menuitem", name="Core Administration").click()

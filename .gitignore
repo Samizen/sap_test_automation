@@ -1,8 +1,12 @@
-.venv/
-test_playwright/__pycache__/
-test_playwright/.pytest_cache
-.ipynb_checkpoints/
 __pycache__/
+.ipynb_checkpoints/
 .pytest_cache/
+.venv/
 .vscode/
-
+chatgpt_change_steps_sent/
+excel_name_change/
+test_playwright/__pycache__/
+test_playwright/.pytest_cache/
+test_playwright/.env
+test_playwright/config.py
+Untitled.ipynb

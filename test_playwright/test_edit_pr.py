@@ -1,4 +1,4 @@
-import time
+import time, re
 from playwright.sync_api import Playwright, sync_playwright
 from test_playwright.test_login import login_ariba
 from test_playwright.config import User_details
@@ -8,8 +8,8 @@ from openpyxl import load_workbook
 from pathlib import Path
 
 # Excel Files
-original_file_path = Path("excel_test_cases") / "test_create_pr.xlsx"
-copied_file_path = Path("excel_test_cases_updated") / "test_create_pr_copy.xlsx"
+original_file_path = Path("excel_test_cases") / "test_edit_pr.xlsx"
+copied_file_path = Path("excel_test_cases_updated") / "test_edit_pr_copy.xlsx"
 shutil.copyfile(original_file_path, copied_file_path)
 
 # Parameters for test case
@@ -18,7 +18,13 @@ PASSWORD = User_details.password
 SEARCH_ITEM = "Book Bins - Set of 16"
 QUANTITY = "5"
 PR_TITLE = "AT-12"
-GENERATE_SCRIPT = False
+GENERATE_SCRIPT = True
+COMPANY_C0DE = "Ariba-Company 1"
+COST_CENTER = "Ariba - International Marketing"
+ACCOUNT_CAT = "ARIBA - Expense Account 2"
+# Account Type = Capital (from the dropdown)
+PROJECT = "Ariba - Project Two"
+
 
 # Calculate date 7 days from now
 future_date = datetime.now() + timedelta(days=7)
@@ -29,7 +35,7 @@ month_year = future_date.strftime("%b, %Y")
 DELIVERY_DATE = f"{day_name}, {day} {month_year}"
 
 
-def test_create_pr():
+def test_edit_pr():
     with sync_playwright() as playwright:
         browser = playwright.chromium.launch(headless=False)
         context = browser.new_context()
@@ -38,36 +44,31 @@ def test_create_pr():
         # Step 1 - Login to "Advanced B&I"
         login_ariba(page, USERNAME, PASSWORD)
         page.wait_for_load_state("networkidle")
+        page.get_by_role("tab", name="Home")
 
-        # Navigate to Catalog Tab
-        page.get_by_role("button", name="More...").click()
-        page.get_by_role("menuitem", name="Catalog").click()
-        page.wait_for_load_state("networkidle")
+        # Search and Open Requisition 
+        page.locator('span.a-no-wrap span.a-srch-portlet-category-dropdown').click()
+        page.get_by_role("menuitem", name="Requisition").click()
+        time.sleep(3)
 
-        # Search for item
-        search_bar = page.locator("input.w-txt.w-chInput")
-        time.sleep(5)
-        search_bar.fill(SEARCH_ITEM)
-        search_button = page.locator("#_pcfaab")
-        page.wait_for_load_state("networkidle")
-        search_button.click()
+        # Search for PR
+        page.locator("[id=\"_4opwwd\"]").click()
+        page.get_by_role("textbox", name="Title:").fill(PR_TITLE)
+        time.sleep(3)
+        page.locator('//button[@id="_5z$ioc" and @title="Run this search"]').click()
 
-        # Set quantity for the search term item
-        # Get exact item as SEARCH_TERM
-        item_row = page.locator(f"tr.a-cat-item-row:has-text('{SEARCH_ITEM}')")
-        item_row.wait_for(state="visible")
-        # Set Quantity
-        qty_input = item_row.locator("input.w-txt")
-        qty_input.click()
-        qty_input.fill(QUANTITY)
-        # Add to Cart
-        item_row.get_by_role("button", name="Add to Cart").click()
-        page.wait_for_load_state("networkidle")
+        # Select PR
+        page.locator("[id=\"_4ztpcb\"]").get_by_role("link", name=PR_TITLE).click()
+        time.sleep(10)
 
-        # Proceed to checkout
-        page.get_by_role("button", name="Proceed to Checkout").click()
-        page.wait_for_load_state("networkidle")
+        # Get PR_number for the requisition for later search 
+        element = page.locator(".pageHead.w-page-head")
+        full_text = element.text_content().strip()
+        full_text = re.sub(r'\s*-\s*', ' - ', full_text)  # normalise spacing around hyphen
+        PR_number = full_text.split(" - ")[0].strip()
+        print("Extracted PR Number:", PR_number)
 
+        page.get_by_role("button", name="Edit").click()
 
         # Fill PR details
         # Enter Requisition Title
@@ -83,6 +84,17 @@ def test_create_pr():
         page.get_by_role("button", name="Actions").click()
         # requisition_details = extract_receivable_details(page)
         page.locator('[bh="PMI"]', has_text="Edit Details").click()
+
+
+        # Edit individual detail here:
+        page.locator('#_1j0xfc').fill(COST_CENTER) # Cost Center
+        page.locator('#_h52ab').fill(COMPANY_C0DE)
+        page.locator('#_yj8r6d').fill(ACCOUNT_CAT)
+        page.locator('#_4uo7vb').fill(PROJECT)
+        # Account Type
+        page.locator('div.w-dropdown[bh="DDM"]').click()
+        page.locator('div.w-dropdown-item:has-text("Capital")').click()
+
         # Test the function
         line_item_details = extract_line_item_details(page)
         accounting_details = extract_accounting_details(page)
@@ -99,8 +111,8 @@ def test_create_pr():
 
         if GENERATE_SCRIPT == True:
             update_excel_template(
-                original_file_path="excel_test_cases/test_create_pr.xlsx",
-                copied_file_path="excel_test_cases_updated/test_create_pr_copy.xlsx",
+                original_file_path="excel_test_cases/test_edit_pr.xlsx",
+                copied_file_path="excel_test_cases_updated/test_edit_pr_copy.xlsx",
                 SEARCH_ITEM=SEARCH_ITEM,
                 QUANTITY=QUANTITY,
                 PR_TITLE=PR_TITLE,
@@ -283,7 +295,6 @@ def extract_shipping_details(page):
     return data
 
 
-
 def update_excel_template(
     original_file_path,
     copied_file_path,
@@ -314,14 +325,15 @@ def update_excel_template(
         return str(data)
 
     # Step 4: Write values to specified cells
-    ws['G6'] = SEARCH_ITEM
-    ws['G7'] = f"Quantity: {QUANTITY}"
-    ws['G10'] = PR_TITLE
+    ws['G6'] = PR_TITLE
     # ws['G11'] = dict_to_multiline(requisition_details)
-    ws['G13'] = dict_to_multiline(line_item_details)
-    ws['G14'] = dict_to_multiline(accounting_details)
-    ws['G15'] = dict_to_multiline(shipping_details)
+    ws['G8'] = dict_to_multiline(line_item_details)
+    ws['G11'] = dict_to_multiline(accounting_details)
+    ws['G12'] = dict_to_multiline(shipping_details)
 
     # Step 5: Save the modified file
     wb.save(copied_file_path)
     print(f"Excel file updated and saved to: {copied_file_path}")
+
+
+        

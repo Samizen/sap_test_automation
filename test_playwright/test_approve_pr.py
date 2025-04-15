@@ -1,4 +1,4 @@
-import time
+import time, re
 from playwright.sync_api import Playwright, sync_playwright, expect
 from test_playwright.test_act_as import act_as
 from test_playwright.test_login import login_ariba
@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "Test PR - E2E6"
+PR_TITLE = "AT-11"
 
 def test_approve_pr():
     with sync_playwright() as playwright:
@@ -30,55 +30,85 @@ def test_approve_pr():
 
         # Select PR
         page.locator("[id=\"_4ztpcb\"]").get_by_role("link", name=PR_TITLE).click()
-        
-
         time.sleep(10)
-        # Address the number of approval
-        approval_users = page.query_selector_all(".apvBorder.BoldBorder.w-apvActive-cell")
-        if not approval_users:
-            print("No approval boxes found!")  # Debugging
+
+        # Get PR_number for the requisition for later search 
+        element = page.locator(".pageHead.w-page-head")
+        full_text = element.text_content().strip()
+        full_text = re.sub(r'\s*-\s*', ' - ', full_text)  # normalise spacing around hyphen
+        PR_number = full_text.split(" - ")[0].strip()
+        print("Extracted PR Number:", PR_number)
+
+        approver_names = []
+
+        # Locate all approval boxes
+        # approval_users = page.locator(".apvBorder.BoldBorder.w-apvActive-cell")
+        approval_links = page.locator('a.apvLink[title^="Active"][bh="HL"]')
+        print(approval_links)
+        count = approval_links.count() # 2 boxes
+
+        if count == 0:
+            print("No approval boxes found!")
         else:
-            print(f"Total Approvers: {len(approval_users)}")  # Debugging
+            print(f"Total Approvers: {count}")
 
-
-        for user in approval_users:
-            print("Entered Loop")
+        # Loop through approval boxes
+        for i in range(count): 
+            print(f"Processing Approver Box {i+1}")
+            user = approval_links.nth(i)
+            print(user)
+            print(f"Found approval link {i}")
             user.click()
             page.wait_for_timeout(1000)
-            approver_link = user.query_selector("a.apvLink.w-approval-link")
-            if approver_link:
-                approver_name = approver_link.inner_text()
-                print(f"Approver Name: {approver_name}")
-                act_as(page, approver_name)
-                approve_pr(page)
+
+            # Check for group approver table
+            table = page.locator("text=Users who can approve:")
+            print(table)
+
+            if table.count() > 0:
+                print("[Group] Detected group approver. Extracting user from group...")
+                try:
+                    first_user = table.locator("xpath=../../following-sibling::tr//a").first.text_content()
+                    print(first_user)
+                    print(f"[Group → User] Found approver: {first_user}")
+                except Exception as e:
+                    print("[Group] Could not extract user from group table!", e)
+                    continue
+            else:
+                # Handle individual approver
+                try:
+                    print("Entered name::::")
+                    approver_name = page.locator('tr:has-text("Name:") >> td.ffp-noedit').first.inner_text().strip()
+                    print(f"[User] Found approver: {approver_name}")
+                except Exception as e:
+                    print("[User] Approver link not found!", e)
+                    continue
+            page.get_by_role("button", name="Done").click()
+
+            approver_names.append(approver_name)
+            page.wait_for_timeout(1000)
+        page.get_by_alt_text("Company Logo").click()
 
 
-        print("Finished!!!")
+        print(approver_names)
+        # Act and approve for each approver
+        for name in approver_names:
+            print(f"\n--- Acting as: {name} ---")
+            act_as(page, name)
+            time.sleep(5)
+            approve_pr(page, PR_number)
+            page.wait_for_load_state("networkidle")
 
-def approve_pr(page):
-    page.locator("[id=\"_x$y1xc\"]").click()
-    page.get_by_role("menuitem", name="Approve (5)").click()
-    page.get_by_role("cell", name="Approvable Type:").locator("span").nth(2).click()
-    page.get_by_role("option", name="Requisition").click()
-    page.get_by_role("link", name="Test PR - E2E6").click()
+
+def approve_pr(page, PR_no):
+    page.get_by_role("tab", name="Home").click()
+    page.locator("[id=\"_ikzaw\"]").get_by_role("link", name=PR_no).click()
+    time.sleep(2)
     page.get_by_role("button", name="Approve").click()
+    time.sleep(2)
     page.get_by_role("button", name="OK").click()
-    page.get_by_role("link", name="Company Logo").click()
-
-        # # ---------------------
-        # context.close()
-        # # input("Press Enter to close the browser...")
-        # browser.close()
-
-
-# Login
-# Find designated PR
-    # Find the numbers of Approvers - for loop
-        # Click the Group 
-        # Find the first user to approve
-        # (create a function to Act as here - parameter "User name")
-        # Go back to home
-            # Goto "Manage" > "Core Administration" > "User Manager" > "Users"
-            # Search for the name of this user - Type the user name and then click on Search
-            # On the lower result, click on Action and then Act As - will redirect to the Home Screen
-
+    # Go back to homepage
+    page.get_by_alt_text("Company Logo").click()
+    time.sleep(3)
+    page.get_by_text("Stop").click()
+    
