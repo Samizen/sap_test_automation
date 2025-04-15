@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "AT-11"
+PR_TITLE = "AT-14"
 
 def test_approve_pr():
     with sync_playwright() as playwright:
@@ -53,17 +53,19 @@ def test_approve_pr():
             print(f"Total Approvers: {count}")
 
         # Loop through approval boxes
-        for i in range(count): 
+        for i in range(1,count): 
             print(f"Processing Approver Box {i+1}")
             user = approval_links.nth(i)
             print(user)
             print(f"Found approval link {i}")
             user.click()
             page.wait_for_timeout(1000)
+            print("page: ",page)
 
             # Check for group approver table
             table = page.locator("text=Users who can approve:")
-            print(table)
+            print("printing table: ",table.inner_text())
+            print("table.count()",table.count())
 
             if table.count() > 0:
                 print("[Group] Detected group approver. Extracting user from group...")
@@ -80,12 +82,16 @@ def test_approve_pr():
                     print("Entered name::::")
                     approver_name = page.locator('tr:has-text("Name:") >> td.ffp-noedit').first.inner_text().strip()
                     print(f"[User] Found approver: {approver_name}")
+                    first_user=approver_name
                 except Exception as e:
                     print("[User] Approver link not found!", e)
                     continue
-            page.get_by_role("button", name="Done").click()
 
-            approver_names.append(approver_name)
+            print("press done ....................")
+            time.sleep(5)
+            # page.get_by_role("button", name="Done").click()
+            print("pressed.")
+            approver_names.append(first_user)
             page.wait_for_timeout(1000)
         page.get_by_alt_text("Company Logo").click()
 
@@ -102,13 +108,32 @@ def test_approve_pr():
 
 def approve_pr(page, PR_no):
     page.get_by_role("tab", name="Home").click()
-    page.locator("[id=\"_ikzaw\"]").get_by_role("link", name=PR_no).click()
-    time.sleep(2)
-    page.get_by_role("button", name="Approve").click()
-    time.sleep(2)
-    page.get_by_role("button", name="OK").click()
-    # Go back to homepage
-    page.get_by_alt_text("Company Logo").click()
-    time.sleep(3)
-    page.get_by_text("Stop").click()
-    
+    # headers = page.locator("table th")
+    # header_texts = headers.all_inner_texts()
+    # id_col_index = next((i for i, text in enumerate(header_texts) if text.strip() == "ID"), None)
+    # print("ids: ",id_col_index)
+    # time.sleep(4)
+    pr_links=page.locator(f"a:has-text('{PR_no}')").all()
+    done=0
+    for link in pr_links:
+        try:
+            print(link)
+             # page.click(f"a:has-text('{PR_no}')")
+            # page.locator("[id=\"_et6pk\"]").get_by_role("link", name=PR_no).click()
+            link.click()
+            time.sleep(2)
+            page.get_by_role("button", name="Approve").click()
+            time.sleep(2)
+            page.get_by_role("button", name="OK").click()
+            # Go back to homepage
+            page.get_by_alt_text("Company Logo").click()
+            time.sleep(3)
+            page.get_by_text("Stop").click()
+            done=1
+            
+        except Exception as e:
+            print(f"link: {link} not working", e)
+
+        if not done:
+            raise Exception("Approve not completed.")
+   

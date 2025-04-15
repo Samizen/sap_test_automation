@@ -17,10 +17,10 @@ USERNAME = User_details.user
 PASSWORD = User_details.password
 SEARCH_ITEM = "Book Bins - Set of 16"
 QUANTITY = "5"
-PR_TITLE = "AT-12"
+PR_TITLE = "AT-14"
 GENERATE_SCRIPT = True
 COMPANY_C0DE = "Ariba-Company 1"
-COST_CENTER = "Ariba - International Marketing"
+COST_CENTER = "Ariba - Quality Assurance"
 ACCOUNT_CAT = "ARIBA - Expense Account 2"
 # Account Type = Capital (from the dropdown)
 PROJECT = "Ariba - Project Two"
@@ -87,13 +87,15 @@ def test_edit_pr():
 
 
         # Edit individual detail here:
+        # page.locator('#text__jfeesc').click()
+        # page.locator('#_jfeesc0').click() # Capital - comment out if no change from Expense
+        
+        page.locator('div.w-dropdown-item:has-text("Capital")').click()
         page.locator('#_1j0xfc').fill(COST_CENTER) # Cost Center
         page.locator('#_h52ab').fill(COMPANY_C0DE)
         page.locator('#_yj8r6d').fill(ACCOUNT_CAT)
         page.locator('#_4uo7vb').fill(PROJECT)
         # Account Type
-        page.locator('div.w-dropdown[bh="DDM"]').click()
-        page.locator('div.w-dropdown-item:has-text("Capital")').click()
 
         # Test the function
         line_item_details = extract_line_item_details(page)
@@ -335,5 +337,8 @@ def update_excel_template(
     wb.save(copied_file_path)
     print(f"Excel file updated and saved to: {copied_file_path}")
 
+
+
+# Home ma 
 
         
