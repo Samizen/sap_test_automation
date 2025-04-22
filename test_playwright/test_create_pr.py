@@ -17,8 +17,8 @@ USERNAME = User_details.user
 PASSWORD = User_details.password
 SEARCH_ITEM = "Book Bins - Set of 16"
 QUANTITY = "5"
-PR_TITLE = "AT-14"
-GENERATE_SCRIPT = False
+PR_TITLE = "AT-19"
+GENERATE_SCRIPT = True
 
 # Calculate date 7 days from now
 future_date = datetime.now() + timedelta(days=7)
@@ -296,16 +296,20 @@ def update_excel_template(
     shipping_details,
     sheet_name="Steps"
 ):
+    print("-----------------------------------------------------------------------")
     # Convert to Path objects for safety
     original_file_path = Path(original_file_path)
     copied_file_path = Path(copied_file_path)
 
     # Step 1: Copy the original file
     shutil.copyfile(original_file_path, copied_file_path)
+    print("Shutil Done")
 
     # Step 2: Load workbook and target sheet
     wb = load_workbook(copied_file_path)
     ws = wb[sheet_name]
+    print(f"ws: {wb}")
+    print(f"ws: {ws}")
 
     # Step 3: Format dictionaries into multi-line strings
     def dict_to_multiline(data):

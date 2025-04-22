@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 # Parameters for test case
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "Test PR - E2E6"
+PR_TITLE = "AT-18"
 # PR_LINK_NAME = "Test PR - E2E2"
 COMMENT = "Test Comment"
 
@@ -37,6 +37,7 @@ def test_create_receipt():
         page.locator('a', has_text=PR_TITLE)
 
         # Receive items
+        time.sleep(3)
         page.get_by_role("button", name="Receive").click()
         time.sleep(3)
         page.get_by_role("button", name="Accept All").click()

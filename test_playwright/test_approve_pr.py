@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "AT-14"
+PR_TITLE = "AT-11"
 
 def test_approve_pr():
     with sync_playwright() as playwright:
@@ -53,7 +53,7 @@ def test_approve_pr():
             print(f"Total Approvers: {count}")
 
         # Loop through approval boxes
-        for i in range(1,count): 
+        for i in range(count): 
             print(f"Processing Approver Box {i+1}")
             user = approval_links.nth(i)
             print(user)
