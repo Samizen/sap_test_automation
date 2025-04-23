@@ -107,15 +107,13 @@ def test_invoice_legacy():
             line_items_data
         )
 
-        page.locator('input[type="checkbox"].w-chk-native').first.click()
+        page.locator("[id=\"_ihiawc\"] > td").first.click()
         page.get_by_role("button", name="Edit").click()
-        page.get_by_role("textbox", name="Reference Date:").fill(INVOICE_DATE)
+        page.get_by_role("textbox", name="Reference Date:").fill(INVOICE_DATE)
         page.get_by_role("button", name="Validate and Exit").first.click()
-
-
-        # Submit the form
-        time.sleep(5)
-        page.get_by_role("button", name="Submit").click()
+        #Submit the invoice
+        time.sleep(3)
+        page.get_by_role("button", name="Submit").first.click()
 
         # Cleanup
         context.close()
