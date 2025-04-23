@@ -20,10 +20,10 @@ URL = "https://s1.au.cloud.ariba.com/Buyer/Main/ad/loginPage/SSOActions?awsso_cc
 USERNAME = User_details.user
 PASSWORD = User_details.password
 # PO_ID = "PO191"  # Replace with your PO ID
-INVOICE_ID = "1234"  # Replace with your invoice ID
-INVOICE_DATE = datetime.today().strftime("%d/%m/%Y")
-REMIT_ADDRESS = "1000005900"  # Replace with your remit address
-SEARCH_QUERY = "AT-17"  # Replace with your search query
+INVOICE_ID = "1234454545"  # Replace with your invoice ID
+INVOICE_DATE = datetime.today().strftime("%a, %d %b, %Y")
+# REMIT_ADDRESS = "1000005900"  # Replace with your remit address
+SEARCH_QUERY = "AT-23"  # Replace with your search query
 
 def test_invoice_legacy():
     with sync_playwright() as playwright:
@@ -91,7 +91,7 @@ def test_invoice_legacy():
         time.sleep(3)
 
         # Fill Remit Address
-        page.locator('input[id="_a_inqd"][type="text"][role="combobox"]').fill(REMIT_ADDRESS)
+        # page.locator('input[id="_a_inqd"][type="text"][role="combobox"]').fill(REMIT_ADDRESS)
 
         purchase_order_data = extract_purchase_order_details(page)
         print(purchase_order_data)
@@ -107,11 +107,15 @@ def test_invoice_legacy():
             line_items_data
         )
 
+        page.locator('input[type="checkbox"].w-chk-native').first.click()
+        page.get_by_role("button", name="Edit").click()
+        page.get_by_role("textbox", name="Reference Date:").fill(INVOICE_DATE)
+        page.get_by_role("button", name="Validate and Exit").first.click()
 
 
         # Submit the form
-        time.sleep(3)
-        page.locator("[id=\"_5avxf\"]").click()
+        time.sleep(5)
+        page.get_by_role("button", name="Submit").click()
 
         # Cleanup
         context.close()
@@ -237,7 +241,7 @@ def extract_line_items_details(page):
         print(f"Line Items Table visibility: {line_items_table.is_visible()}")
 
         # Locate rows using the correct selector
-        rows = line_items_table.locator('#_ihiawc').all()
+        rows = line_items_table.locator('tr[id^="_ihiawc"]').all()  # Using the `id` prefix for row elements
         print(f"Found {len(rows)} line item rows")
 
         if len(rows) == 0:
@@ -250,15 +254,15 @@ def extract_line_items_details(page):
 
                 # Extract values with fallback handling for optional inputs
                 line_data = {
-                    "No": row.locator('td[id="_jdsrc"]').inner_text().strip(),
-                    "Description": row.locator('td[id="_ms4chc"]').inner_text().strip(),
-                    "Order_ID": row.locator('td[id="_pk2kzd"] a span').inner_text().strip(),
-                    "Qty": row.locator('input[id="_bwol9b"]').input_value().strip(),
-                    "Unit": row.locator('td[id="_2wpqf"] a').inner_text().strip(),
-                    "Price": row.locator('td[id="_o8sm2d"]').inner_text().strip(),
-                    "Amount": row.locator('td[id="_hngptb"]').inner_text().strip(),
-                    "Discount": row.locator('input[id="_gj0$q"]').input_value().strip() if row.locator('input[id="_gj0$q"]').count() > 0 else "",
-                    "Gross_Amount": row.locator('td[id="_4gloub"]').inner_text().strip(),
+                    "No": row.locator('td#_jdsrc').inner_text().strip(),
+                    "Description": row.locator('td#_ms4chc').inner_text().strip(),
+                    "Order_ID": row.locator('td#_pk2kzd a span').inner_text().strip(),
+                    "Qty": row.locator('input#_bwol9b').input_value().strip(),
+                    "Unit": row.locator('td#_2wpqf a').inner_text().strip(),
+                    "Price": row.locator('td#_o8sm2d').inner_text().strip(),
+                    "Amount": row.locator('td#_hngptb').inner_text().strip(),
+                    "Discount": row.locator('input#_gj0$q').input_value().strip() if row.locator('input#_gj0$q').count() > 0 else "",
+                    "Gross_Amount": row.locator('td#_4gloub').inner_text().strip(),
                 }
 
                 # Normalize spacing and clean up values
@@ -278,6 +282,7 @@ def extract_line_items_details(page):
     print("\n=== Final Extracted Line Items Data ===")
     print(data)
     return data
+
 
 
 def update_excel_template_with_po_terms(

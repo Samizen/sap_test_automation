@@ -11,3 +11,4 @@ test_playwright/.env
 test_playwright/config.py
 Untitled.ipynb
 .vscode/settings.json
+excel_test_cases_updated/

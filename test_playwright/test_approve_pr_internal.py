@@ -1,4 +1,4 @@
-import time, re
+import time, re, os
 from playwright.sync_api import Playwright, sync_playwright, expect
 from test_playwright.test_act_as import act_as
 from test_playwright.test_login import login_ariba
@@ -6,7 +6,8 @@ from test_playwright.config import User_details
 
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "AT-15"
+PR_TITLE = "AT-23"
+
 
 def test_approve_pr_internal():
     with sync_playwright() as playwright:
@@ -15,7 +16,9 @@ def test_approve_pr_internal():
         page = context.new_page()
         
         login_ariba(page, USERNAME, PASSWORD)
-        time.sleep(5)
+        time.sleep(10)
+
+        page.get_by_role("tab", name="Home").click()
 
         # Search and Open Requisition 
         page.locator('span.a-no-wrap span.a-srch-portlet-category-dropdown').click()

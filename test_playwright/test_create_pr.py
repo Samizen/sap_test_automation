@@ -15,9 +15,9 @@ shutil.copyfile(original_file_path, copied_file_path)
 # Parameters for test case
 USERNAME = User_details.user
 PASSWORD = User_details.password
-SEARCH_ITEM = "Book Bins - Set of 16"
-QUANTITY = "5"
-PR_TITLE = "AT-19"
+SEARCH_ITEM = "Power Pen! Reading Comprehension Quiz Cards - Gr. 1"
+QUANTITY = "12"
+PR_TITLE = "AT-23"
 GENERATE_SCRIPT = True
 
 # Calculate date 7 days from now
