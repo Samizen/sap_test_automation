@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 # Parameters for test case
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "AT-23"
+PR_TITLE = "AT-31"
 # PR_LINK_NAME = "Test PR - E2E2"
 COMMENT = "Test Comment"
 

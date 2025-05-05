@@ -15,9 +15,9 @@ shutil.copyfile(original_file_path, copied_file_path)
 # Parameters for test case
 USERNAME = User_details.user
 PASSWORD = User_details.password
-SEARCH_ITEM = "Power Pen! Reading Comprehension Quiz Cards - Gr. 1"
+SEARCH_ITEM = "MaxiFlex 34-874 Seamless Knit Nylon Gloves with Nitrile Coated Micro-Foam Grip on Palm and Fingers Cut Resistance Gloves"
 QUANTITY = "12"
-PR_TITLE = "AT-23"
+PR_TITLE = "AT-32"
 GENERATE_SCRIPT = True
 
 # Calculate date 7 days from now
@@ -43,10 +43,11 @@ def test_create_pr():
         page.get_by_role("button", name="More...").click()
         page.get_by_role("menuitem", name="Catalog").click()
         page.wait_for_load_state("networkidle")
+        time.sleep(5)
 
         # Search for item
         search_bar = page.locator("input.w-txt.w-chInput")
-        time.sleep(5)
+        time.sleep(10)
         search_bar.fill(SEARCH_ITEM)
         search_button = page.locator("#_pcfaab")
         page.wait_for_load_state("networkidle")

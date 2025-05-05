@@ -20,10 +20,10 @@ URL = "https://s1.au.cloud.ariba.com/Buyer/Main/ad/loginPage/SSOActions?awsso_cc
 USERNAME = User_details.user
 PASSWORD = User_details.password
 # PO_ID = "PO191"  # Replace with your PO ID
-INVOICE_ID = "12344545452321"  # Replace with your invoice ID
+INVOICE_ID = "123445451245"  # Replace with your invoice ID
 INVOICE_DATE = datetime.today().strftime("%a, %d %b, %Y")
 # REMIT_ADDRESS = "1000005900"  # Replace with your remit address
-SEARCH_QUERY = "AT-30"  # Replace with your search query
+SEARCH_QUERY = "AT-31"  # Replace with your search query
 
 def test_invoice_legacy():
     with sync_playwright() as playwright:
@@ -107,15 +107,13 @@ def test_invoice_legacy():
             line_items_data
         )
 
-        page.locator('input[type="checkbox"].w-chk-native').first.click()
+        page.locator("[id=\"_ihiawc\"] > td").first.click()
         page.get_by_role("button", name="Edit").click()
-        page.get_by_role("textbox", name="Reference Date:").fill(INVOICE_DATE)
+        page.get_by_role("textbox", name="Reference Date:").fill(INVOICE_DATE)
         page.get_by_role("button", name="Validate and Exit").first.click()
-
-
-        # Submit the form
-        time.sleep(5)
-        page.get_by_role("button", name="Submit").click()
+        #Submit the invoice
+        time.sleep(3)
+        page.get_by_role("button", name="Submit").first.click()
 
         # Cleanup
         context.close()

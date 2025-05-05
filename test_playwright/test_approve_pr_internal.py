@@ -6,7 +6,7 @@ from test_playwright.config import User_details
 
 USERNAME = User_details.user
 PASSWORD = User_details.password
-PR_TITLE = "AT-23"
+PR_TITLE = "AT-31"
 
 
 def test_approve_pr_internal():
