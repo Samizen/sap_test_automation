@@ -1,0 +1,1 @@
+streamlit run C:\Users\Samit paudel\Downloads\ariba_automation\sap_test_automation\app.py
