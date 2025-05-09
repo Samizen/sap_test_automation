@@ -55,10 +55,21 @@ if selected_test:
         save_button = st.form_submit_button("💾 Save Parameters")
 
         if save_button:
+            new_lines = []
+            for line in content:
+                match = re.match(r'^(\w+)\s*=\s*(.+)', line)
+                if match:
+                    var_name = match.group(1)
+                    if var_name in updated_params:
+                        new_val = updated_params[var_name]
+                        new_lines.append(f"{var_name} = {new_val}\n")
+                    else:
+                        new_lines.append(line)
+                else:
+                    new_lines.append(line)
+
             with open(file_path, 'w', encoding='utf-8') as f:
-                for k, v in updated_params.items():
-                    f.write(f"{k} = {v}\n")
-                f.writelines(body_lines)
+                f.writelines(new_lines)
             st.success("✅ Parameters updated successfully!")
 
     # --- Run Button ---

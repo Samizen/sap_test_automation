@@ -8,7 +8,6 @@ excel_name_change/
 test_playwright/__pycache__/
 test_playwright/.pytest_cache/
 test_playwright/.env
-test_playwright/config.py
 Untitled.ipynb
 .vscode/settings.json
 excel_test_cases_updated/
